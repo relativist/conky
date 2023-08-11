@@ -1,0 +1,91 @@
+#background yes
+update_interval 1
+total_run_times 0
+
+cpu_avg_samples 2
+net_avg_samples 2
+temperature_unit celsius
+
+double_buffer yes
+no_buffers yes
+text_buffer_size 2048
+
+gap_x 05
+gap_y 40
+minimum_size 390 325
+maximum_width 625
+own_window yes
+own_window_type desktop
+own_window_transparent yes
+own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+border_inner_margin 0
+border_outer_margin 0
+alignment tr
+
+draw_shades yes
+draw_outline yes
+draw_borders no
+draw_graph_borders yes
+
+own_window_argb_visual yes
+
+override_utf8_locale yes
+use_xft yes
+xftfont caviar dreams:size=8
+xftalpha 0.5
+uppercase no
+
+default_color DeepSkyBlue
+color1 Orange
+color2 Green
+color3 Red
+color4 Yellow
+color5 DDDDDD
+color6 AAAAAA
+color7 888888
+color8 666666
+
+TEXT
+
+#${color1}${font :Bold:size=14} $alignc ${time %H}:${time %M}
+${color}${font :Bold:size=14} $alignc ${time %h} ${time %e} - ${time %Y}
+#$alignc(${time %A})
+#${color8}$alignc Uptime: $uptime
+#${color8}${hr 2}
+##${color8}$alignc ${pre_exec lsb_release -d | cut -f 2| tr "[:upper:]" "[:lower:]"}${color8}$alignc $sysname $kernel
+#{color8}$alignc ${execi 1000 cat /proc/cpuinfo | grep 'model name' | sed -e 's/model name.*: //'| uniq}
+#${color8}${hr 2}
+#${color4} CPU $alignr${color6}CPU: ${color1}${execi 5 sensors | grep 'temp1' | head -n 1 | cut -c 15-17}°C
+${color4} CPU $alignr${color6}CPU:
+${color}${cpubar 8,325} ${color5} $cpu%
+#${color7}Core1: ${color}${cpubar cpu1 7,80} ${color7}${cpu cpu1}% $alignr${color7}${cpu cpu2}%${color}${cpubar cpu2 7,80}${color7} :Core2
+#${color7}Core3: ${color}${cpubar cpu3 7,80} ${color7}${cpu cpu3}% $alignr${color7}${cpu cpu4}%${color}${cpubar cpu4 7,80}${color7} :Core4
+${color}${cpugraph 30,}
+#${color5}Process Name ${color5}$alignr CPU% MEM%
+#${color6}${top name 1}$alignr${top cpu 1}   ${top mem 1}
+#${color7}${top name 2}$alignr${top cpu 2}   ${top mem 2}
+#${color8}${top name 3}$alignr${top cpu 3}   ${top mem 3}
+#${color8}${top name 4}$alignr${top cpu 4}   ${top mem 4}
+
+${color4}Memory
+${color6}RAM : ${color5}($memmax)${alignr}${color6}$mem${color}
+${membar 8,375}
+${color6}SWAP: ${color5}($swapmax)${alignr}${color6}$swap${color}
+${swapbar 8,375}
+#${color8}${hr 4}
+
+${color4}HDD
+${color5}Linux:${color1}(${fs_type})${alignr}${color7}${fs_used /}  <  >  ${color7}${fs_free /}
+${color8}Total: ${fs_size /}${alignr}${color}${fs_bar 8,150}
+
+${color5}Data:${color1}(${fs_type /home/rest/data})${alignr}${color7}${fs_used /home/rest/data}  <  >  ${color7}${fs_free /home/rest/data}
+${color8}Total: ${fs_size /home/rest/data}${alignr}${color}${fs_bar 8,150 /home/rest/data}
+
+${color7}HDD Read-> ${alignc}${color2}${diskio_read}/s ${alignr}${color3}${diskio_write}/s ${color7}<-HDD Write
+${color2}${diskiograph_read 8,150} ${alignr}${color3}${diskiograph_write 8,150}${color}
+
+
+${color4}Lan${color} ${alignr}${color7}IP: ${addr wlp2s0}
+${color7}Download: ${color2}${downspeed wlp2s0} k/s ${alignr} $alignr${color7}Upload: ${color3} ${upspeed enp3s0} k/s
+${color2}${downspeedgraph wlp2s0 30,150} ${alignr}${color3}${upspeedgraph wlp2s0 30,150}
+${color7}Total:${color2}${totaldown wlp2s0} ${alignr}${color7}Total:${color3}${totalup wlp2s0}${font :Bold:size=08}
